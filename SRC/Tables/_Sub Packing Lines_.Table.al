@@ -1,4 +1,4 @@
-table 55012 "Sub Packing Lines"
+table 55015 "Sub Packing Lines"
 {
     Caption = 'Sub Packing Lines';
     DataClassification = ToBeClassified;
@@ -28,23 +28,22 @@ table 55012 "Sub Packing Lines"
             trigger OnValidate()
             var
                 PackingAdjustment: Record "Packing Adjustment";
-                palletBoxMaster: Record "Pallet/Box Master";
+                BoxMaster: Record "Box Master";
             begin
                 PackingAdjustment.Reset();
-                PackingAdjustment.SetRange("Box/Pallet ID", Rec."Box Sr ID/Packing No.");
+                PackingAdjustment.SetRange("Box ID", Rec."Box Sr ID/Packing No.");
                 if not PackingAdjustment.FindFirst() then begin
                     // Rec.CalcSums("Qty Packed", "Total Gross Ship Wt");
                     PackingAdjustment.Init();
                     PackingAdjustment.Validate("Packing No", Rec."Packing No.");
-                    PackingAdjustment.Validate("Packing Type", Rec."Packing Type");
-                    PackingAdjustment.Validate("Box/Pallet ID", Rec."Box Sr ID/Packing No.");
-                    //// PackingAdjustment.Validate("Qty Packed in this Box/Pallet", Rec."Qty Packed");
+                    PackingAdjustment.Validate("Box ID", Rec."Box Sr ID/Packing No.");
+                    //// PackingAdjustment.Validate("Qty Packed in this Box/", Rec."Qty Packed");
                     //        PackingAdjustment.Validate("Total Gross Ship Wt", Rec."Total Gross Ship Wt");
-                    palletBoxMaster.Get(Rec."Box Code / Packing Type");
-                    PackingAdjustment.Validate(L, palletBoxMaster.L);
-                    PackingAdjustment.Validate(H, palletBoxMaster.H);
-                    PackingAdjustment.Validate(W, palletBoxMaster.W);
-                    //   PackingAdjustment.Validate("Box Dimension", (format(PalletBoxMaster.L) + ' X ' + Format(PalletBoxMaster.W) + ' X ' + Format(PalletBoxMaster.H)));
+                    BoxMaster.Get(Rec."Box Code / Packing Type");
+                    PackingAdjustment.Validate(L, BoxMaster.L);
+                    PackingAdjustment.Validate(H, BoxMaster.H);
+                    PackingAdjustment.Validate(W, BoxMaster.W);
+                    //   PackingAdjustment.Validate("Box Dimension", (format(BoxMaster.L) + ' X ' + Format(BoxMaster.W) + ' X ' + Format(BoxMaster.H)));
                     PackingAdjustment.Insert();
                     Rec.Validate("Box Dimension", PackingAdjustment."Box Dimension");
                     //Rec.Modify();
@@ -53,14 +52,14 @@ table 55012 "Sub Packing Lines"
         }
         field(6; "Box Code / Packing Type"; Code[20])
         {
-            TableRelation = "Pallet/Box Master" where(Type = field("Packing Type"));
+            TableRelation = "Box Master";
             Caption = 'Box Code / Packing Type';
             DataClassification = ToBeClassified;
 
             trigger OnValidate()
             var
                 NoSeries: Codeunit NoSeriesManagement;
-                palletboxmaster: Record "Pallet/Box Master";
+                boxmaster: Record "Box Master";
                 PackingNo: Text;
                 packingtype: Code[20];
                 SubPackingLines: Record "Sub Packing Lines";
@@ -68,24 +67,23 @@ table 55012 "Sub Packing Lines"
             begin
                 if "Packing No." = '' then Rec.Validate("Packing No.", Rec.GetFilter("Packing No."));
                 IF Rec."Box Sr ID/Packing No." = '' then begin
-                    if palletboxmaster.Get(Rec."Box Code / Packing Type") then begin
+                    if boxmaster.Get(Rec."Box Code / Packing Type") then begin
                         //  Rec.Validate("Packing Type",Rec.GetFilter("Packing Type"));
-                        Rec.Validate("Box Sr ID/Packing No.", NoSeries.GetNextNo(palletboxmaster."No Series", 0D, true));
-                        Rec.Validate("Total Gross Ship Wt", palletboxmaster."Weight of Pallet/BoX");
+                        Rec.Validate("Box Sr ID/Packing No.", NoSeries.GetNextNo(boxmaster."No Series", 0D, true));
+                        Rec.Validate("Total Gross Ship Wt", boxmaster."Weight of BoX");
                         SubPackingLines.Reset();
                         SubPackingLines.SetRange("Packing No.", Rec."Packing No.");
-                        SubPackingLines.SetRange("Packing Type", Rec."Packing Type");
                         if SubPackingLines.FindLast() then;
                         if Rec."Line No." = 0 then Rec.Validate("Line No.", SubPackingLines."Line No." + 10000);
                         // PackingAdjustment.reset();
                         // PackingAdjustment.SetRange("Packing No", Rec."Packing No.");
-                        // PackingAdjustment.SetRange("Box/Pallet ID", Rec."Box Sr ID/Packing No.");
+                        // PackingAdjustment.SetRange("Box ID", Rec."Box Sr ID/Packing No.");
                         // if PackingAdjustment.FindFirst() then begin
                         //     PackingAdjustment.Validate("Total Gross Ship Wt", SubPackingLines."Total Gross Ship Wt");
                         // end;
                     end
                     else
-                        Message('Pallet Not Get');
+                        Message(' Not Get');
                 end;
             end;
         }
@@ -100,9 +98,9 @@ table 55012 "Sub Packing Lines"
             begin
                 PackingAdjustment.Reset();
                 PackingAdjustment.SetRange("Packing No", Rec."Packing No.");
-                PackingAdjustment.SetRange("Box/Pallet ID", Rec."Box Sr ID/Packing No.");
+                PackingAdjustment.SetRange("Box ID", Rec."Box Sr ID/Packing No.");
                 if PackingAdjustment.FindFirst() then begin
-                    PackingAdjustment.Validate("Qty Packed in this Box/Pallet", Rec."Qty Packed");
+                    PackingAdjustment.Validate("Qty Packed in this Box", Rec."Qty Packed");
                     PackingAdjustment.Modify();
                 end;
             end;
@@ -118,7 +116,7 @@ table 55012 "Sub Packing Lines"
             begin
                 PackingAdjustment.Reset();
                 PackingAdjustment.SetRange("Packing No", Rec."Packing No.");
-                PackingAdjustment.SetRange("Box/Pallet ID", Rec."Box Sr ID/Packing No.");
+                PackingAdjustment.SetRange("Box ID", Rec."Box Sr ID/Packing No.");
                 if PackingAdjustment.FindFirst() then begin
                     PackingAdjustment.Validate("Total Gross Ship Wt", Rec."Total Gross Ship Wt");
                     PackingAdjustment.Modify();
@@ -127,7 +125,7 @@ table 55012 "Sub Packing Lines"
         }
         field(9; "Box Dimension"; Text[100])
         {
-            Caption = 'Pallet Dimension';
+            Caption = ' Dimension';
             DataClassification = ToBeClassified;
         }
         field(10; "Tracking ID"; Text[200])
@@ -184,11 +182,6 @@ table 55012 "Sub Packing Lines"
         field(17; Barcode; Media)
         {
 
-        }
-        field(18; "Label Print count"; Integer)
-        {
-            FieldClass = FlowField;
-            CalcFormula = count("Box Scan History" where("Box ID" = field("Box Sr ID/Packing No.")));
         }
         field(19; "Employee Name"; text[100])
         {

@@ -1,4 +1,4 @@
-page 55018 "Markup Statistics FactBox"
+page 55028 "Markup Statistics FactBox"
 {
     Caption = 'Markup Statistics FactBox';
     PageType = ListPart;
@@ -23,17 +23,12 @@ page 55018 "Markup Statistics FactBox"
                     ApplicationArea = All;
                 }
             }
-            group("Box / Pallet Information")
+            group("Box Information")
             {
                 field(BoxCount; BoxCount)
                 {
                     ApplicationArea = All;
                     Caption = 'No of Boxes';
-                }
-                field(PalletCount; PalletCount)
-                {
-                    ApplicationArea = All;
-                    Caption = 'No of Pallets';
                 }
             }
             group(Markups)
@@ -41,12 +36,6 @@ page 55018 "Markup Statistics FactBox"
                 field("Box Markup value"; Rec."Box Markup value")
                 {
                     ToolTip = 'Specifies the value of the Box Markup value field.';
-                    ApplicationArea = All;
-                    Editable = false;
-                }
-                field("Pallet Markup value"; Rec."Pallet Markup value")
-                {
-                    ToolTip = 'Specifies the value of the Pallet Markup value field.';
                     ApplicationArea = All;
                     Editable = false;
                 }
@@ -68,12 +57,6 @@ page 55018 "Markup Statistics FactBox"
                 field("Insurance Markup for Box"; Rec."Insurance Markup for Box")
                 {
                     Caption = 'Box Insurance Markup';
-                    ApplicationArea = All;
-                    Editable = false;
-                }
-                field("Insurance Markup for Pallet"; Rec."Insurance Markup for Pallet")
-                {
-                    Caption = 'Pallet Insurance Markup';
                     ApplicationArea = All;
                     Editable = false;
                 }
@@ -109,13 +92,7 @@ page 55018 "Markup Statistics FactBox"
         Clear(BoxCount);
         SubPackingLines.Reset();
         SubPackingLines.SetRange("Packing No.", Rec.No);
-        SubPackingLines.SetRange("Packing Type", SubPackingLines."Packing Type"::Box);
         if SubPackingLines.FindSet() then BoxCount := SubPackingLines.Count;
-        Clear(PalletCount);
-        SubPackingLines.Reset();
-        SubPackingLines.SetRange("Packing No.", Rec.No);
-        SubPackingLines.SetRange("Packing Type", SubPackingLines."Packing Type"::Pallet);
-        if SubPackingLines.FindSet() then PalletCount := SubPackingLines.Count;
         SHipPackageLines.Reset();
         SHipPackageLines.SetRange("No.", rec.No);
         if SHipPackageLines.FindSet() then begin
@@ -128,5 +105,4 @@ page 55018 "Markup Statistics FactBox"
 
     var
         BoxCount: Decimal;
-        PalletCount: Decimal;
 }

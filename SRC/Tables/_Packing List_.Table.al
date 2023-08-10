@@ -1,4 +1,4 @@
-table 55005 "Packing List"
+table 55006 "Packing List"
 {
     Caption = 'Packing List';
     DataClassification = ToBeClassified;

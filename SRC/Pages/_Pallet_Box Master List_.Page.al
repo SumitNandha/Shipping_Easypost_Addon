@@ -1,9 +1,9 @@
-page 55001 "Pallet/Box Master List"
+page 55002 "Box Master List"
 {
     ApplicationArea = All;
-    Caption = 'Pallet/Box Master List';
+    Caption = 'Box Master List';
     PageType = List;
-    SourceTable = "Pallet/Box Master";
+    SourceTable = "Box Master";
     UsageCategory = Lists;
 
     layout
@@ -12,14 +12,9 @@ page 55001 "Pallet/Box Master List"
         {
             repeater(General)
             {
-                field("Type"; Rec."Type")
+                field("Box "; Rec."Box")
                 {
-                    ToolTip = 'Specifies the value of the Type field.';
-                    ApplicationArea = All;
-                }
-                field("Pallet/Box "; Rec."Pallet/Box")
-                {
-                    ToolTip = 'Specifies the value of the Pallet/Box field';
+                    ToolTip = 'Specifies the value of the Box field';
                     ApplicationArea = All;
                 }
                 field("No Series"; Rec."No Series")
@@ -42,9 +37,9 @@ page 55001 "Pallet/Box Master List"
                     ToolTip = 'Specifies the value of the H field';
                     ApplicationArea = All;
                 }
-                field("Weight of Pallet/BoX"; Rec."Weight of Pallet/BoX")
+                field("Weight of BoX"; Rec."Weight of BoX")
                 {
-                    ToolTip = 'Specifies the value of the Weight of Pallet/BoX field';
+                    ToolTip = 'Specifies the value of the Weight of BoX field';
                     ApplicationArea = All;
                 }
             }

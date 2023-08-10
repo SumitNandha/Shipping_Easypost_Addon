@@ -1,4 +1,4 @@
-page 55017 "Other Option Card"
+page 55023 "Other Option Card"
 {
     Caption = 'Shipping Options';
     PageType = Card;

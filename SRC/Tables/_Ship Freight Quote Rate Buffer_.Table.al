@@ -1,4 +1,4 @@
-table 55007 "Ship Freight Quote Rate Buffer"
+table 55009 "Ship Freight Quote Rate Buffer"
 {
     fields
     {

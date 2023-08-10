@@ -1,4 +1,4 @@
-table 55004 "Ship Packing Lines"
+table 55005 "Ship Packing Lines"
 {
     Caption = 'Ship Packing Lines';
     DataClassification = ToBeClassified;
@@ -77,19 +77,19 @@ table 55004 "Ship Packing Lines"
 
             trigger OnValidate()
             var
-                "Pallet/Box master": Record "Pallet/Box Master";
+                "/Box master": Record "Box Master";
                 PackingList: Record "Packing List";
                 PackingListLast: Record "Packing List";
                 NoSeries: Codeunit NoSeriesManagement;
             begin
                 if Rec."New Packing No." = 'NEW' then begin
-                    "Pallet/Box master".Get(rec."Packing type");
+                    "/Box master".Get(rec."Packing type");
                     PackingListLast.Reset();
                     if PackingListLast.FindLast() then begin
                         PackingList.Init();
                         PackingList.Validate(EntryNo, PackingListLast.EntryNo + 1);
                         PackingList.Validate("Packing No", Rec."No.");
-                        PackingList.Validate("No.", NoSeries.GetNextNo("Pallet/Box master"."No Series", 0D, true));
+                        PackingList.Validate("No.", NoSeries.GetNextNo("/Box master"."No Series", 0D, true));
                         PackingList.Insert();
                         Rec.Validate("New Packing No.", PackingList."No.");
                     end;
@@ -108,7 +108,7 @@ table 55004 "Ship Packing Lines"
         {
             Caption = 'Packing type';
             DataClassification = ToBeClassified;
-            TableRelation = "Pallet/Box Master";
+            TableRelation = "Box Master";
         }
         field(14; "QtyPacked"; Boolean)
         {
@@ -180,7 +180,7 @@ table 55004 "Ship Packing Lines"
         {
             DataClassification = ToBeClassified;
         }
-        field(25; "Box/Pallet Weight"; Decimal)
+        field(25; "Box Weight"; Decimal)
         {
             DataClassification = ToBeClassified;
         }
@@ -195,13 +195,13 @@ table 55004 "Ship Packing Lines"
 
             trigger OnValidate()
             var
-                PalletBoxMaster: Record "Pallet/Box Master";
+                BoxMaster: Record "Box Master";
             begin
-                if PalletBoxMaster.Get(Rec."Box Code for Item") then begin
-                    Rec.Validate("Box/Pallet Weight", PalletBoxMaster."Weight of Pallet/BoX");
-                    Rec.Validate("Box L", PalletBoxMaster.L);
-                    Rec.Validate("Box W", PalletBoxMaster.W);
-                    Rec.Validate("Box H", PalletBoxMaster.H);
+                if BoxMaster.Get(Rec."Box Code for Item") then begin
+                    Rec.Validate("Box Weight", BoxMaster."Weight of BoX");
+                    Rec.Validate("Box L", BoxMaster.L);
+                    Rec.Validate("Box W", BoxMaster.W);
+                    Rec.Validate("Box H", BoxMaster.H);
                 end;
             end;
         }

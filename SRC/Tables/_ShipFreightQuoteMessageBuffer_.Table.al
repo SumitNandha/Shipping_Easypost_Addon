@@ -1,4 +1,4 @@
-table 55008 "ShipFreightQuoteMessageBuffer"
+table 55010 "ShipFreightQuoteMessageBuffer"
 {
     Caption = 'Ship Freight Quote Message Buffer';
 

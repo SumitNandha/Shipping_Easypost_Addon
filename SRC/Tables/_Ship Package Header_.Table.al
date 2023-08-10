@@ -1,4 +1,4 @@
-table 55003 "Ship Package Header"
+table 55004 "Ship Package Header"
 {
     Caption = 'Ship Package Header';
     DataClassification = ToBeClassified;
@@ -86,7 +86,7 @@ table 55003 "Ship Package Header"
                     Rec."Bill-to Post Code" := SalesHeader."Bill-to Post Code";
                     Rec."Bill-to Contact No." := SalesHeader."Bill-to Contact No.";
                     Rec.Location := SalesHeader."Location Code";
-                    Rec."Web Order No" := SalesHeader."BigCommerce ID";
+                    // Rec."Web Order No" := SalesHeader."BigCommerce ID";
                     Rec.Validate("Existing Shipping Rate on SO/SQ", SalesHeader."SI Total Shipping Rate");
                     Rec.Agent := SalesHeader."Shipping Agent Code";
                     if ShippingAgentService.Get(SalesHeader."Shipping Agent Code", SalesHeader."Shipping Agent Service Code") then
@@ -109,7 +109,7 @@ table 55003 "Ship Package Header"
                             ShipPackageLines.Validate("Line No.", SalesLine."Line No.");
                             ShipPackageLines.Validate("Item No.", SalesLine."No.");
                             Item.Get(ShipPackageLines."Item No.");
-                            if Item."SI Box Code of Item" = '' then Error('Box/Pallet Id must have a value in Item %1', Item."No.");
+                            if Item."SI Box Code of Item" = '' then Error('Box Id must have a value in Item %1', Item."No.");
                             ShipPackageLines.Validate(Description, SalesLine.Description);
                             ShipPackageLines.Validate(Quantity, SalesLine.Quantity);
                             ShipPackageLines.Validate("Total Qty", SalesLine.Quantity);
@@ -120,8 +120,6 @@ table 55003 "Ship Package Header"
                         until SalesLine.Next() = 0;
                     end;
                     Rec.Validate(Class, Rec.Class::"65.0");
-                    Rec.Validate("Service Class", Rec."Service Class"::ALL);
-                    Rec.Validate("Service Package Code", rec."Service Package Code"::"PLT (pallet)");
                     Rec."Work Description" := SalesHeader.GetWorkDescription();
                     AddressVerify(Rec);
                     ShippackageHeader.Activate(true);
@@ -160,14 +158,8 @@ table 55003 "Ship Package Header"
         field(3; "Close All Boxs"; Boolean)
         {
             Caption = 'Close All Boxes';
-            CalcFormula = lookup("Pack In"."Close All Boxs" where("Packing No." = field(No), "Packing Type" = filter(Box)));
+            CalcFormula = lookup("Pack In"."Close All Boxs" where("Packing No." = field(No)));
             FieldClass = FlowField;
-        }
-        field(4; "Close All Pallets"; Boolean)
-        {
-            Caption = 'Close All Pallets';
-            FieldClass = FlowField;
-            CalcFormula = lookup("Pack In"."Close All Pallets" where("Packing No." = field(No), "Packing Type" = filter(Pallet)));
         }
         field(5; "PickUp Date"; Date)
         {
@@ -548,21 +540,6 @@ table 55003 "Ship Package Header"
             Caption = 'Over Dimension';
             DataClassification = ToBeClassified;
         }
-        field(58; "Service Option"; Enum "YRC Service Option")
-        {
-            Caption = 'Service Option';
-            DataClassification = ToBeClassified;
-        }
-        field(59; "Service Class"; Enum "YRC Service Class")
-        {
-            Caption = 'Service Class';
-            DataClassification = ToBeClassified;
-        }
-        field(60; "Service Package Code"; Enum "YRC Package Code")
-        {
-            Caption = 'Service Package Code';
-            DataClassification = ToBeClassified;
-        }
         field(61; "NMFC Class"; Enum nmfcClass)
         {
             Caption = 'NMFC Class';
@@ -748,7 +725,7 @@ table 55003 "Ship Package Header"
                             Rec."Bill-to Post Code" := SalesHeader."Bill-to Post Code";
                             Rec."Bill-to Contact No." := SalesHeader."Bill-to Contact No.";
                             Rec.Location := InventoryPick."Location Code";
-                            Rec."Web Order No" := SalesHeader."BigCommerce ID";
+                            // Rec."Web Order No" := SalesHeader."BigCommerce ID";
                             Rec.Validate("Existing Shipping Rate on SO/SQ", SalesHeader."SI Total Shipping Rate");
                             if Rec.Location = '' then Rec.Location := SalesHeader."Location Code";
                             Rec.Agent := SalesHeader."Shipping Agent Code";
@@ -774,7 +751,7 @@ table 55003 "Ship Package Header"
                                     ShipPackageLines.Validate("Line No.", InventoryPickLines."Line No.");
                                     ShipPackageLines.Validate("Item No.", InventoryPickLines."Item No.");
                                     Item.Get(ShipPackageLines."Item No.");
-                                    if Item."SI Box Code of Item" = '' then Error('Box/Pallet Id must have a value in Item %1', Item."No.");
+                                    if Item."SI Box Code of Item" = '' then Error('Box Id must have a value in Item %1', Item."No.");
                                     ShipPackageLines.Validate(Description, InventoryPickLines.Description);
                                     ShipPackageLines.Validate(Quantity, InventoryPickLines."Qty. to Handle");
                                     ShipPackageLines.Validate("Total Qty", InventoryPickLines.Quantity);
@@ -907,19 +884,11 @@ table 55003 "Ship Package Header"
         {
             DataClassification = ToBeClassified;
         }
-        field(102; "Pallet Markup value"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
         field(103; "Get All Rates EasyPost"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
         field(104; "Insurance Markup for Box"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(105; "Insurance Markup for Pallet"; Decimal)
         {
             DataClassification = ToBeClassified;
         }
@@ -1248,7 +1217,7 @@ table 55003 "Ship Package Header"
         buyShipment: Record "Buy Shipment";
         CombinedRateInfo: Record "Combine Rate Information";
         Packin: Record "Pack In";
-        RLRateQuote: Record "RL Rate Quote";
+        // RLRateQuote: Record "RL Rate Quote";
         Readjust: Record "ReAdjust Packing";
     begin
         if Rec.Carrier = '' then begin
@@ -1273,9 +1242,9 @@ table 55003 "Ship Package Header"
             Packin.Reset();
             Packin.SetRange("Packing No.", Rec.No);
             if Packin.FindSet() then Packin.DeleteAll();
-            RLRateQuote.Reset();
-            RLRateQuote.SetRange("No", Rec.No);
-            if RLRateQuote.FindSet() then RLRateQuote.DeleteAll();
+            // RLRateQuote.Reset();
+            // RLRateQuote.SetRange("No", Rec.No);
+            // if RLRateQuote.FindSet() then RLRateQuote.DeleteAll();
             Readjust.Reset();
             Readjust.SetRange("Packing No", Rec.No);
             if Readjust.FindSet() then Readjust.DeleteAll();

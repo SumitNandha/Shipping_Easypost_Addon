@@ -1,58 +1,54 @@
-table 55001 "Pallet/Box Master"
+table 55002 "Box Master"
 {
-    Caption = 'Pallet/Box Master';
+    Caption = 'Box Master';
     DataClassification = ToBeClassified;
-    LookupPageId = "Pallet/Box Master List";
-    DrillDownPageId = "Pallet/Box Master List";
+    LookupPageId = "Box Master List";
+    DrillDownPageId = "Box Master List";
 
     fields
     {
-        field(1;"Pallet/Box";Code[20])
+        field(1; Box; Code[20])
         {
-            Caption = 'Pallet/Box';
+            Caption = 'Box';
             DataClassification = ToBeClassified;
         }
-        field(10;"Type";Enum "Pallet/Box Enum")
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(2;"No Series";Code[20])
+        field(2; "No Series"; Code[20])
         {
             Caption = 'No Series';
             DataClassification = ToBeClassified;
             TableRelation = "No. Series".Code;
         }
-        field(3;L;Decimal)
+        field(3; L; Decimal)
         {
             Caption = 'L';
             DataClassification = ToBeClassified;
         }
-        field(4;W;Decimal)
+        field(4; W; Decimal)
         {
             Caption = 'W';
             DataClassification = ToBeClassified;
         }
-        field(5;H;Decimal)
+        field(5; H; Decimal)
         {
             Caption = 'H';
             DataClassification = ToBeClassified;
         }
-        field(6;"Weight of Pallet/BoX";Decimal)
+        field(6; "Weight of Box"; Decimal)
         {
-            Caption = 'Weight of Pallet/Box';
+            Caption = 'Weight of Box';
             DataClassification = ToBeClassified;
         }
     }
     keys
     {
-        key(PK;"Pallet/Box")
+        key(PK; Box)
         {
             Clustered = true;
         }
     }
     fieldgroups
     {
-        fieldgroup(DropDown;Type, "Pallet/Box", H, L, W, "Weight of Pallet/BoX")
+        fieldgroup(DropDown; Box, H, L, W, "Weight of Box")
         {
         }
     }

@@ -1,4 +1,4 @@
-page 55005 "Packing List"
+page 55006 "Packing List"
 {
     Caption = 'Packing List';
     PageType = List;

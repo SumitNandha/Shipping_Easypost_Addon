@@ -1,4 +1,4 @@
-page 55008 "Other Option"
+page 55010 "Other Option"
 {
     Caption = 'Shipping Options';
     PageType = Cardpart;
@@ -52,63 +52,63 @@ page 55008 "Other Option"
                 // }
                 group("Origin Options")
                 {
-                    field("Inside Pickup";Rec."Inside Pickup")
+                    field("Inside Pickup"; Rec."Inside Pickup")
                     {
                         ToolTip = 'Specifies the value of the Inside Pickup field.';
                         ApplicationArea = All;
                     }
-                    field("Limited Access Pickup";Rec."Limited Access Pickup")
+                    field("Limited Access Pickup"; Rec."Limited Access Pickup")
                     {
                         ToolTip = 'Specifies the value of the Limited Access Pickup field.';
                         ApplicationArea = All;
                     }
-                    field("Origin Lift gate";Rec."Origin Lift gate")
+                    field("Origin Lift gate"; Rec."Origin Lift gate")
                     {
                         ToolTip = 'Specifies the value of the Origin Lift gate field.';
                         ApplicationArea = All;
                     }
-                    field("Residential Pickup";Rec."Residential Pickup")
+                    field("Residential Pickup"; Rec."Residential Pickup")
                     {
                         ToolTip = 'Specifies the value of the Residential Pickup field.';
                         ApplicationArea = All;
                     }
-                    field("Get All Rates EasyPost";Rec."Get All Rates EasyPost")
+                    field("Get All Rates EasyPost"; Rec."Get All Rates EasyPost")
                     {
                         ApplicationArea = All;
                     }
                 }
                 group("Destination Options")
                 {
-                    field("Destination Lift gate";Rec."Destination Lift gate")
+                    field("Destination Lift gate"; Rec."Destination Lift gate")
                     {
                         ToolTip = 'Specifies the value of the Destination Lift gate field.';
                         ApplicationArea = All;
                     }
-                    field("Limited Access Delivery";Rec."Limited Access Delivery")
+                    field("Limited Access Delivery"; Rec."Limited Access Delivery")
                     {
                         ToolTip = 'Specifies the value of the Limited Access Delivery field.';
                         ApplicationArea = All;
                     }
-                    field("Residential Delivery";Rec."Residential Delivery")
+                    field("Residential Delivery"; Rec."Residential Delivery")
                     {
                         ToolTip = 'Specifies the value of the Residential Delivery field.';
                         ApplicationArea = All;
                     }
-                    field("Inside Delivery";Rec."Inside Delivery")
+                    field("Inside Delivery"; Rec."Inside Delivery")
                     {
                         ToolTip = 'Specifies the value of the Inside Delivery field.';
                         ApplicationArea = All;
                     }
-                    field("Delivery Notification";Rec."Delivery Notification")
+                    field("Delivery Notification"; Rec."Delivery Notification")
                     {
                         ToolTip = 'Specifies the value of the Delivery Notification field.';
                         ApplicationArea = All;
                     }
-                // field("Sort And Segregate"; Rec."Sort And Segregate")
-                // {
-                //     ToolTip = 'Specifies the value of the Sort And Segregate field.';
-                //     ApplicationArea = All;
-                // }
+                    // field("Sort And Segregate"; Rec."Sort And Segregate")
+                    // {
+                    //     ToolTip = 'Specifies the value of the Sort And Segregate field.';
+                    //     ApplicationArea = All;
+                    // }
                 }
                 group("Shipment Options")
                 {
@@ -117,24 +117,16 @@ page 55008 "Other Option"
                     //     ToolTip = 'Specifies the value of the Freezable field.';
                     //     ApplicationArea = All;
                     // }
-                    field(Hazmat;Rec.Hazmat)
+                    field(Hazmat; Rec.Hazmat)
                     {
                         ToolTip = 'Specifies the value of the Hazmat field.';
                         ApplicationArea = All;
                     }
-                    field("Service Package Code";Rec."Service Package Code")
-                    {
-                        ApplicationArea = All;
-                    }
-                    field("Service Class";Rec."Service Class")
-                    {
-                        ApplicationArea = All;
-                    }
-                // field("Over Dimension"; Rec."Over Dimension")
-                // {
-                //     ToolTip = 'Specifies the value of the Over Dimension field.';
-                //     ApplicationArea = All;
-                // }
+                    // field("Over Dimension"; Rec."Over Dimension")
+                    // {
+                    //     ToolTip = 'Specifies the value of the Over Dimension field.';
+                    //     ApplicationArea = All;
+                    // }
                 }
             }
         }
